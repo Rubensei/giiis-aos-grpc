@@ -1,0 +1,31 @@
+syntax = "proto3";
+
+service ChatService {
+  rpc Ping(EmptyMessage) returns (PongMessage);
+  rpc GetUsers(EmptyMessage) returns (UsersResponse);
+  rpc SendMessage(SentChatMessage) returns (EmptyMessage);
+  rpc Subscribe(UsernameMessage) returns (stream ReceivedChatMessage);
+  rpc Unsubscribe(UsernameMessage) returns (EmptyMessage);
+}
+
+message PongMessage {}
+message EmptyMessage {}
+
+message UsersResponse {
+  repeated string users = 1;
+}
+
+message SentChatMessage {
+  string user = 1;
+  string message = 2;
+}
+
+message UsernameMessage {
+  string username = 1;
+}
+
+message ReceivedChatMessage {
+  string user = 1;
+  string message = 2;
+  uint64 timestamp = 3;
+}

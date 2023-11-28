@@ -1,0 +1,15 @@
+syntax = "proto3";
+
+service RandomGenerator {
+  rpc GetRandom(GetRandomRequest) returns (GetRandomResponse);
+}
+
+// value = min + randomNumber*max
+message GetRandomRequest {
+  optional int32 max = 1;
+  optional int32 min = 2;
+}
+
+message GetRandomResponse {
+  float value = 1;
+}

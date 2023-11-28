@@ -1,0 +1,18 @@
+syntax = "proto3";
+
+service ExampleService {
+  rpc GetEcho(EchoMessage) returns (EchoMessage);
+  rpc GetTimer(TimerRequest) returns (stream TimerStatus);
+}
+
+message EchoMessage {
+  string message = 1;
+}
+
+message TimerRequest {
+  optional uint32 seconds = 1;
+}
+
+message TimerStatus {
+  string message = 1;
+}
