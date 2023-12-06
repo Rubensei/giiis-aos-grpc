@@ -3,25 +3,21 @@
 All commands must be run from the root project path.
 
 ## Server
-### Linux
+### Linux y Windows powershell
 ```bash
-./gradlew :server:installDist
-./server/build/install/server/bin/server
+./gradlew :server:run
 ```
-### Windows
+### Windows cmd
 ```bat
-.\gradlew :server:installDist
-.\server\build\install\server\bin\server.bat
+.\gradlew :server:run
 ```
 
 ## Client
-### Linux
+### Linux y Windows powershell
 ```bash
-./gradlew :client:installDist
-./client/build/install/client/bin/client
+./gradlew :client:run
 ```
-### Windows
+### Windows cmd
 ```bat
-.\gradlew :server:installDist
-.\client\build\install\client\bin\client.bat
+.\gradlew.bat :server:run
 ```
