@@ -4,11 +4,10 @@ import com.google.rpc.Code;
 import com.google.rpc.ErrorInfo;
 import es.unex.giiis.aos.grpc.generated.Chat.*;
 import es.unex.giiis.aos.grpc.generated.ChatServiceGrpc;
+import io.grpc.StatusRuntimeException;
 import io.grpc.stub.StreamObserver;
 
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 public class ChatServerImpl extends ChatServiceGrpc.ChatServiceImplBase {
 
@@ -66,9 +65,15 @@ public class ChatServerImpl extends ChatServiceGrpc.ChatServiceImplBase {
                 .setTimestamp(new Date().getTime())
                 .build();
 
+        final Set<String> disconnectedUsers = new HashSet<>();
         for (final Map.Entry<String, StreamObserver<ReceivedChatMessage>> entry : subscriptions.entrySet()) {
-            entry.getValue().onNext(messageResponse);
+            try {
+                entry.getValue().onNext(messageResponse);
+            } catch (StatusRuntimeException error) {
+                disconnectedUsers.add(entry.getKey());
+            }
         }
+        disconnectedUsers.forEach(subscriptions::remove);
 
         responseObserver.onNext(EmptyMessage.newBuilder().build());
         responseObserver.onCompleted();
