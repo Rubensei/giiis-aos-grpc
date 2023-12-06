@@ -5,13 +5,9 @@ import es.unex.giiis.aos.grpc.generated.ChatServiceGrpc;
 import io.grpc.StatusException;
 import io.grpc.stub.StreamObserver;
 
-import java.util.HashMap;
-import java.util.Map;
-
 public class ChatServerImpl extends ChatServiceGrpc.ChatServiceImplBase {
 
     private final ChatServerService service = ChatServerService.get();
-    private final Map<String, StreamObserver<ReceivedChatMessage>> subscriptions = new HashMap<>();
 
     @Override
     public void ping(EmptyMessage request, StreamObserver<PongMessage> responseObserver) {
