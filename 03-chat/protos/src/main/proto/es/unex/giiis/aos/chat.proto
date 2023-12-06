@@ -1,5 +1,7 @@
 syntax = "proto3";
 
+option java_package = "es.unex.giiis.aos.grpc.generated";
+
 service ChatService {
   rpc Ping(EmptyMessage) returns (PongMessage);
   rpc GetUsers(EmptyMessage) returns (UsersResponse);
