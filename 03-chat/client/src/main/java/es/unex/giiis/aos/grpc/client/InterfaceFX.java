@@ -1,5 +1,6 @@
 package es.unex.giiis.aos.grpc.client;
 
+import es.unex.giiis.aos.grpc.client.utils.AlertUtils;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
@@ -29,6 +30,7 @@ public class InterfaceFX extends Application {
     Button joinButton = new Button("Join");
     TextArea messagesArea = new TextArea();
     Button send = new Button();
+    Button users = new Button();
     TextField message = new TextField();
 
     @Override
@@ -56,8 +58,8 @@ public class InterfaceFX extends Application {
         window.setTitle("CHAT");
         window.show();
         window.setOnCloseRequest((request) -> {
-            request.consume();
             if (!username.isBlank()) {
+                request.consume();
                 clientController.unsubscribe(username, (data) -> {
                     Platform.runLater(window::close);
                 });
@@ -71,11 +73,18 @@ public class InterfaceFX extends Application {
             System.out.println("INVALID USERNAME");
             return;
         }
-        this.username = username;
-        System.out.println("WELCOME " + username);
-        window.setScene(chatScene);
         clientController.ping((connected) -> {
-            if (connected) subscribe();
+            if (connected) {
+                subscribe();
+                Platform.runLater(() -> {
+                    this.username = username;
+                    window.setScene(chatScene);
+                });
+            } else {
+               Platform.runLater(() -> {
+                   AlertUtils.showAlert("HA OCURRIDO UN ERROR CONECTANDO AL SERVIDOR");
+               });
+            }
         });
     }
 
@@ -93,6 +102,15 @@ public class InterfaceFX extends Application {
             }
         });
     }
+
+    private void onShowUsers(ActionEvent actionEvent) {
+        clientController.getUsers(data -> {
+            if (!data.isEmpty()) {
+                Platform.runLater(() -> AlertUtils.showUsers(data));
+            }
+        });
+    }
+
 
     private Scene createChatScene() {
         //Panel Dividido
@@ -129,16 +147,22 @@ public class InterfaceFX extends Application {
         writeSection.setPrefHeight(100);
         writeSection.setPrefWidth(160);
         //Botón Enviar
-        send.setLayoutX(519);
-        send.setLayoutY(21);
+        send.setLayoutX(511);
+        send.setLayoutY(16);
         send.setMnemonicParsing(false);
         send.setText("Send");
         send.setOnAction(this::onSend);
+        //Botón Usuarios
+        users.setLayoutX(511);
+        users.setLayoutY(46);
+        users.setMnemonicParsing(false);
+        users.setText("Show Users");
+        users.setOnAction(this::onShowUsers);
         //Input de mensajes
         message.setLayoutX(128);
         message.setLayoutY(21);
         message.setPrefHeight(31);
-        message.setPrefWidth(378);
+        message.setPrefWidth(370);
         //Texto
         Text writeSomething = new Text();
         writeSomething.setLayoutX(14);
@@ -147,11 +171,9 @@ public class InterfaceFX extends Application {
         writeSomething.setStrokeWidth(0);
         writeSomething.setText("write something:");
         //Rellenar Sección Abajo
-        writeSection.getChildren().addAll(send, message, writeSomething);
+        writeSection.getChildren().addAll(send, message, writeSomething, users);
         //Fusion todos
         splitPane.getItems().addAll(messagesSection, writeSection);
         return new Scene(splitPane);
     }
-
-
 }

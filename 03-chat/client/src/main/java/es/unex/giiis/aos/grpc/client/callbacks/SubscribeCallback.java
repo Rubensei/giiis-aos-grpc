@@ -1,7 +1,10 @@
 package es.unex.giiis.aos.grpc.client.callbacks;
 
+import es.unex.giiis.aos.grpc.client.utils.AlertUtils;
 import es.unex.giiis.aos.grpc.generated.Chat;
+import io.grpc.StatusRuntimeException;
 import io.grpc.stub.StreamObserver;
+import javafx.application.Platform;
 
 public class SubscribeCallback implements StreamObserver<Chat.ReceivedChatMessage> {
     private final ValueCallback<Chat.ReceivedChatMessage> handler;
@@ -19,7 +22,11 @@ public class SubscribeCallback implements StreamObserver<Chat.ReceivedChatMessag
     @Override
     public void onError(Throwable t) {
         System.out.println(" ERROR ON SUBSCRIBE");
-        t.printStackTrace();
+        if(t instanceof StatusRuntimeException) {
+            Platform.runLater(() -> {
+                AlertUtils.showAlert(((StatusRuntimeException) t).getStatus().getDescription());
+            });
+        }
     }
 
     @Override

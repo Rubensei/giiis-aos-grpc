@@ -3,9 +3,7 @@ package es.unex.giiis.aos.grpc.client;
 import es.unex.giiis.aos.grpc.client.callbacks.*;
 import es.unex.giiis.aos.grpc.generated.Chat;
 import es.unex.giiis.aos.grpc.generated.ChatServiceGrpc;
-import io.grpc.Grpc;
-import io.grpc.InsecureChannelCredentials;
-import io.grpc.ManagedChannel;
+import io.grpc.*;
 
 import java.util.List;
 
@@ -14,7 +12,7 @@ public class ClientController {
     private static ClientController instance = null;
 
     private ClientController() {
-        String target = "2.tcp.eu.ngrok.io:14803"; // CAMBIAR URL AQUI
+        String target = "7.tcp.eu.ngrok.io:12777"; // CAMBIAR URL AQUI
         ManagedChannel channel = Grpc.newChannelBuilder(target, InsecureChannelCredentials.create())
                 .build();
         this.serviceStub = ChatServiceGrpc.newStub(channel);
@@ -32,9 +30,9 @@ public class ClientController {
         serviceStub.ping(request, new PingCallback(onResult));
     }
 
-    public List<String> getUsers() {
-        //serviceStub.getUsers();
-        return List.of();
+    public void getUsers(ValueCallback<List<String>> onResult) {
+        final Chat.EmptyMessage request = Chat.EmptyMessage.newBuilder().build();
+        serviceStub.getUsers(request, new GetUsersCallback(onResult));
     }
 
     public void sendMessage(String username, String message, ValueCallback<Boolean> onComplete) {
