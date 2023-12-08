@@ -7,14 +7,14 @@ plugins {
 def grpcVersion = '1.59.1'
 
 javafx {
-    version = "17.0.9"
+    version = "21.0.1"
     modules = [ 'javafx.controls' ]
 }
 
-mainClassName = 'es.unex.giiis.aos.grpc.client.InterfaceFX'
+mainClassName = 'es.unex.giiis.aos.grpc.client.ClientApplication'
 
 application {
-    mainClassName = 'es.unex.giiis.aos.grpc.client.InterfaceFX'
+    mainClassName = 'es.unex.giiis.aos.grpc.client.ClientApplication'
 }
 
 group = 'es.unex.giiis.aos.grpc.client'
