@@ -12,7 +12,7 @@ public class ClientController {
     private static ClientController instance = null;
 
     private ClientController() {
-        String target = "7.tcp.eu.ngrok.io:12777"; // CAMBIAR URL AQUI
+        String target = "localhost:50051"; // CAMBIAR URL AQUI
         ManagedChannel channel = Grpc.newChannelBuilder(target, InsecureChannelCredentials.create())
                 .build();
         this.serviceStub = ChatServiceGrpc.newStub(channel);

@@ -8,7 +8,7 @@ def grpcVersion = '1.59.1'
 
 javafx {
     version = "21.0.1"
-    modules = [ 'javafx.controls' ]
+    modules = [ 'javafx.controls', 'javafx.fxml' ]
 }
 
 mainClassName = 'es.unex.giiis.aos.grpc.client.ClientApplication'
