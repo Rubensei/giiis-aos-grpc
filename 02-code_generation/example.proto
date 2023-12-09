@@ -2,6 +2,8 @@ syntax = "proto3";
 
 import "google/protobuf/timestamp.proto";
 
+option java_multiple_files = true;
+
 service ExampleService {
   rpc GetEcho(EchoMessage) returns (EchoMessage);
   rpc SetTimer(TimerMessage) returns (stream TimerStatusMessage);
