@@ -1,18 +1,40 @@
 syntax = "proto3";
 
+import "google/protobuf/timestamp.proto";
+
 service ExampleService {
   rpc GetEcho(EchoMessage) returns (EchoMessage);
-  rpc GetTimer(TimerRequest) returns (stream TimerStatus);
+  rpc SetTimer(TimerMessage) returns (stream TimerStatusMessage);
+  rpc GetPastTimers(GetPastTimersRequest) returns (GetPastTimersResponse);
 }
 
 message EchoMessage {
   string message = 1;
 }
 
-message TimerRequest {
-  optional uint32 seconds = 1;
+message TimerMessage {
+  message Detailed {
+    google.protobuf.Timestamp start = 1;
+    optional uint32 seconds = 2;
+  };
+
+  oneof timer_kind {
+    TimerMessage.Detailed detailed_timer = 1;
+    uint32 seconds_from_now = 2;
+  }
 }
 
-message TimerStatus {
-  string message = 1;
+enum TimerStatus {
+  WAITING = 0;
+  COMPLETED = 1;
+}
+
+message TimerStatusMessage {
+  TimerStatus status = 1;
+  string message = 2;
+}
+
+message GetPastTimersRequest {}
+message GetPastTimersResponse {
+  repeated TimerMessage timers = 1;
 }

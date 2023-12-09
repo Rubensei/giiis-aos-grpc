@@ -1,10 +1,7 @@
-Revisar generación de código relativo al proto del ejercicio en java y nodejs para:
- * Ilustrar tema opcionales
+Revisar generación de código relativo al proto del ejercicio en java y python para:
+ * Ilustrar generación en distintos lenguajes de los diferentes tipos de datos
  * Ilustrar diferencias entre síncrono y asíncrono
 
-Revisar las configuraciones específicas de cada lenguaje (package de java, etc)
+En java -> protoc --java_out=gen/java ./example.proto
 
-En java -> generación con gradle
-
-En node -> generacón dinámica vs estática (mejor estática para poder ver lo generado aunque sea poco legible)
-Ejemplo: https://github.com/grpc/grpc-node/tree/master/examples/helloworld
+En python -> protoc --python_out=gen/python ./example.proto
