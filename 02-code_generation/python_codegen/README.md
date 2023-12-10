@@ -3,7 +3,7 @@
 # Creación del entorno virtual
 virtualenv .venv
 # Linux
-source .venv/Scripts/actuvate
+source .venv/Scripts/activate
 # Windows CMD
 .venv\Scripts\activate.bat
 # Windows PowerShell
@@ -22,7 +22,7 @@ Para poder ejecutar uno de los scripts cliente, utilizaremos, con el entorno vir
 
 Es necesario volver a generar cada vez que se realizan cambios en el `.proto`
 
-# Implementación de clientes echo.py y get_random.py
+# Implementación de clientes echo.py y get_random_rpc.py
 Utilizando el canal ya definido en el puerto local por defecto, hay que instanciar el _stub_ del cliente.
 Esta clase se encuentra en el archivo generado de grpc `example_pb2_grpc`
 
@@ -36,7 +36,7 @@ Una vez instanciado se podrá llamar a los métodos definidos para el servicio e
 response = stub.GetEcho(example_pb2.EchoMessage(message="Hello World!"))
 print(response.message)
 
-# get_random.py
+# get_random_rpc.py
 response = stub.GetRandom(example_pb2.RandomRequest(min=0, max=10))
 print(response.value)
 ```
