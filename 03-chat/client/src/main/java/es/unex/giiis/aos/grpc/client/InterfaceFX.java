@@ -22,15 +22,12 @@ public class InterfaceFX extends Application {
 
     private Stage window;
 
-    private HomeScreen homeScreen;
     private ChatScreen chatScreen;
-
-    TextField message = new TextField();
 
     @Override
     public void start(Stage stage) throws IOException {
         window = stage;
-        homeScreen = new HomeScreen(this::onJoin);
+        HomeScreen homeScreen = new HomeScreen(this::onJoin);
 
         window.setScene(homeScreen);
         window.show();
