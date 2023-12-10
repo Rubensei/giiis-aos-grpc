@@ -22,7 +22,7 @@ Para poder ejecutar uno de los scripts cliente, utilizaremos, con el entorno vir
 
 Es necesario volver a generar cada vez que se realizan cambios en el `.proto`
 
-# Implementación de clientes echo.py y get_random_rpc.py
+# Implementación de cliente echo.py
 Utilizando el canal ya definido en el puerto local por defecto, hay que instanciar el _stub_ del cliente.
 Esta clase se encuentra en el archivo generado de grpc `example_pb2_grpc`
 
@@ -30,19 +30,19 @@ Esta clase se encuentra en el archivo generado de grpc `example_pb2_grpc`
 stub = example_pb2_grpc.ExampleServiceStub(channel)
 ```
 
-Una vez instanciado se podrá llamar a los métodos definidos para el servicio en el `.proto`. Para ello será necesario importar el módulo de definición de mensajes `example_pb2`
+Una vez instanciado se podrá llamar a los métodos definidos para el servicio en el `.proto`. Para ello será necesario importar el módulo de definición de mensajes `example_pb2` y a través del stub definido con anterioridad llamar al método GetEcho pasando un EchoMessage por parámetros para obtener una respuesta del servidor.
 ```python
-# echo.py
 response = stub.GetEcho(example_pb2.EchoMessage(message="Hello World!"))
 print(response.message)
-
-# get_random_rpc.py
-response = stub.GetRandom(example_pb2.RandomRequest(min=0, max=10))
-print(response.value)
 ```
 
-En el caso de get_random podemos observar el comportamiento al modificar los parámetros del mensaje
+# Implementación de get_random_rpc.py
 
+En este caso se utiliza un stream unidireccional como resultado de la invocación del método GetRandom del servicio, sobre esta colección iteramos e imprimiremos en pantalla el resultado.
+```python
+for response in stub.GetRandom(example_pb2.RandomRequest(numbers=10, min=0, max=10)):
+    print(response.value)
+```
 # Implementación de streaming_echo.py
 En este caso se utiliza un stream bidireccional en el que el servidor responderá a cada uno de los mensajes que envíe el cliente.
 

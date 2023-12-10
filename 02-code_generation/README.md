@@ -2,7 +2,7 @@
 Para ilustar la generación de código y su uso en diferentes lenguajes se implementarán un servidor java y un cliente python que se comunicarán entre sí utilizando gRPC
 
 ## Cliente
-Primero se implementará primero el cliente, realizando la conexión sobre el servidor alojado en la ip indicada en la sesión.
+Primero se implementará el cliente, realizando la conexión sobre el servidor alojado en la ip indicada en la sesión.
 
 Esta implementación se detalla en `python_codegen/README.md`
 
