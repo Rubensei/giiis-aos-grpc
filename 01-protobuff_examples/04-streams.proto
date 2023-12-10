@@ -1,8 +1,11 @@
 syntax = "proto3";
 
 service SensorService {
+  // Stream de servidor
   rpc GetTemperature(TemperatureRequest) returns (stream TemperatureReading);
+  // Stream de client
   rpc NotifyTemperature(stream SensorTemperatureReading) returns (SensorTemperatureResponse);
+  // Stream bidireccional
   rpc CheckActuatorStatus(stream SensorTemperatureReading) returns (stream ActuatorStatus);
 }
 

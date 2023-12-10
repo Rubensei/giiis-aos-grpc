@@ -1,0 +1,24 @@
+syntax = "proto3";
+
+option java_multiple_files = true;
+option java_package = "es.unex.giiis.aos.grpc.example.generated";
+
+service ExampleService {
+  rpc GetEcho(EchoMessage) returns (EchoMessage);
+  rpc GetRandom(RandomRequest) returns (stream RandomResponse);
+  rpc StreamingEcho(stream EchoMessage) returns (stream EchoMessage);
+}
+
+message EchoMessage {
+  string message = 1;
+}
+
+message RandomRequest {
+  optional uint32 numbers = 1;
+  uint32 min = 2;
+  optional uint32 max = 3;
+}
+
+message RandomResponse {
+  float value = 1;
+}

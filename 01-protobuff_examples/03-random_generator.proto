@@ -4,7 +4,8 @@ service RandomGenerator {
   rpc GetRandom(GetRandomRequest) returns (GetRandomResponse);
 }
 
-// value = min + randomNumber*max
+// Suponiendo que la generación sea `value = min + randomNumber*max` necesitamos poder conocer si max está presente o no
+// El valor por defecto en escalares numéricos es 0, lo cual invalidaría el cálculo en caso de no estar presente
 message GetRandomRequest {
   optional int32 max = 1;
   optional int32 min = 2;
